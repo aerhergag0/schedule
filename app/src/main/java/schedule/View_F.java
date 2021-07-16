@@ -1,4 +1,4 @@
-package dbtest;
+package schedule;
 
 import java.sql.Connection;
 import java.sql.ResultSet;
@@ -30,7 +30,6 @@ public class View_F {
       Connection CN = boot.boot();
       Statement ST = CN.createStatement();
       banner.printbanner1("완료일정");
-      SearchSchedule_F search_f = new SearchSchedule_F();
       f_view(id);//f_view 값을 불러옴 login id 값을줌
 
       // 일정 존재 여부
@@ -42,14 +41,13 @@ public class View_F {
 
         while(true) {
           System.out.println("\n메뉴를 선택하여 주세요.");
-          System.out.println("\n1. 완료일정 삭제\n2. 완료일정 검색\n0. 뒤로가기\n");
+          System.out.println("\n1. 완료일정 삭제\n0. 뒤로가기\n");
           System.out.print("메뉴 입력 : ");
           String i = sc.nextLine();
           if (i.equals("1")) {f_delete(id);break;}
           else if (i.equals("0")) {
             return;
           }
-          else if (i.equals("2")) {search_f.search_f_menu(id);break;}
 
           else {
             System.out.println("\n올바르지 않은 번호입니다. 다시 입력하여 주세요."); 

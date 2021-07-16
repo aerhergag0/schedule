@@ -1,4 +1,4 @@
-package dbtest;
+package schedule;
 
 import java.util.Scanner;
 

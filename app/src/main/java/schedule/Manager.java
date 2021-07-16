@@ -1,8 +1,10 @@
-package dbtest;
+package schedule;
 
-import java.sql.*;
-import java.util.*;
-import java.util.regex.*;
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.Statement;
+import java.util.Scanner;
+import java.util.regex.Pattern;
 
 public class Manager{
   Scanner sc = new Scanner(System.in);
@@ -15,12 +17,13 @@ public class Manager{
   boolean cheak = false;
 
   public void manager(){
-    System.out.println("\n------------------관리자모드------------------");
+    banner.printbanner1("관리자 모드");
 
     while(true) {
       UserQuestionalarm();
-      System.out.println("\n메뉴를 입력하여 주세요.");
-      System.out.println("\n1. 회원수정\n2. 회원삭제\n3. 회원목록\n4. 관리자 문의 \n0. 로그아웃");
+      System.out.println("메뉴를 입력해 주세요.");
+      System.out.println();
+      System.out.println("\n1. 회원수정\n2. 회원삭제\n3. 회원목록\n0. 로그아웃");
       System.out.print("메뉴 입력 : ");
       String i = sc.nextLine(); // switch를 if로 바꿔주고
       if (i.equals("1")) {
@@ -58,7 +61,7 @@ public class Manager{
       String a;
       String b;
 
-      System.out.println("\n------------------회원수정------------------");
+      banner.printbanner2("회원 수정");
 
       loop:while(true) {
         System.out.println("\n1. 이름 수정\n2. 비밀번호 수정\n3. 이메일 수정\n4. 휴대전화번호 수정\n0. 뒤로가기");
@@ -73,7 +76,7 @@ public class Manager{
 
         switch(i) {
           case "1":
-            System.out.println("\n------------------이름 수정------------------");
+            banner.printbanner2("이름 수정");
             System.out.println("\n수정하실 회원의 아이디를 입력하여 주세요. (0:뒤로가기)");
             while(true) {
               System.out.print("아이디 입력 : ");
@@ -114,7 +117,9 @@ public class Manager{
 
 
           case "2":
-            System.out.println("\n------------------비밀번호 수정------------------");
+            banner.printbanner2("비밀번호 수정");
+
+
             System.out.println("\n수정하실 회원의 아이디를 입력하여 주세요. (0:뒤로가기)");
             while(true) {
               System.out.print("아이디 입력 : ");
@@ -158,7 +163,7 @@ public class Manager{
 
 
           case "3":
-            System.out.println("\n------------------이메일 수정------------------");
+            banner.printbanner2("이메일 수정");
             System.out.println("\n수정하실 회원의 아이디를 입력하여 주세요. (0:뒤로가기)");
             while(true) {
               System.out.print("아이디 입력 : ");
@@ -204,7 +209,7 @@ public class Manager{
 
 
           case "4":
-            System.out.println("\n------------------휴대전화번호 수정------------------");
+            banner.printbanner2("휴대전화번호 수정");
             System.out.println("\n수정하실 회원의 아이디를 입력하여 주세요. (0:뒤로가기)");
             while(true) {
               System.out.print("아이디 입력 : ");
@@ -287,7 +292,7 @@ public class Manager{
       String del;
 
 
-      System.out.println("\n------------------회원삭제------------------");
+      banner.printbanner2("회원삭제");
       System.out.println("\n삭제하실 회원의 아이디를 입력하여 주세요. (0:뒤로가기)");
       while(true) {
         System.out.print("아이디 입력 : ");
@@ -328,6 +333,28 @@ public class Manager{
   }//수정하는 update 메서드 삭제
 
 
+
+
+  public void UserQuestionalarm() {
+    try {
+      Boot boot = new Boot();
+      Connection CN = boot.boot();
+      Statement ST = CN.createStatement();
+      ST = CN.createStatement();
+      msg ="select coments from question";
+      RS = ST.executeQuery(msg);
+      int count = 0;
+      while(RS.next() == true) {
+        String d = RS.getString("COMENTS");
+        if(d==null){count++;}
+      }
+      System.out.println("관리자님의 답글을 기다리는 게시글이 "+count+"개 있습니다.");
+    }catch(Exception e) {}
+  }
+
+
+
+
   public void UserQuestionView() {
     try{
       Boot boot = new Boot();
@@ -355,7 +382,6 @@ public class Manager{
       }
     }catch(Exception e) {}
   }
-
 
 
 
@@ -388,22 +414,6 @@ public class Manager{
   }
 
 
-  public void UserQuestionalarm() {
-    try {
-      Boot boot = new Boot();
-      Connection CN = boot.boot();
-      Statement ST = CN.createStatement();
-      ST = CN.createStatement();
-      msg ="select coments from question";
-      RS = ST.executeQuery(msg);
-      int count = 0;
-      while(RS.next() == true) {
-        String d = RS.getString("COMENTS");
-        if(d==null){count++;}
-      }
-      System.out.println("관리자님의 답글을 기다리는 게시글이 "+count+"개 있습니다.");
-    }catch(Exception e) {}
-  }
 
 
 
@@ -417,12 +427,11 @@ public class Manager{
       msg ="select * from profile";
       ResultSet rs = ST.executeQuery(msg);//executeQuery로 명령출력한다
       while(rs.next() == true) {
+
         String a = rs.getString("NAME");//이름
 
         String b = rs.getString("ID");//아디
-        if(a.equals("관리자")||b.equals("admin")) {
-          break;
-        }
+
         String c = rs.getString("PW");//비번
         String d = rs.getString("EMAIL");//이메일
         String e = rs.getString("PHONE");//폰

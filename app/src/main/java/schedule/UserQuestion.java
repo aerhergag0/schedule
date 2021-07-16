@@ -1,7 +1,9 @@
-package dbtest;
+package schedule;
 
-import java.sql.*;
-import java.util.*;
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.Statement;
+import java.util.Scanner;
 
 public class UserQuestion {
   String function = "";
