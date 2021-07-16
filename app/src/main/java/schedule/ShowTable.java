@@ -117,4 +117,82 @@ public class ShowTable {
       CN.close();
     } catch(Exception e) {}
   } // Method End
+
+  public void searchResultShowTable(String id, String Query) {
+    try {
+      Boot boot = new Boot();
+      Connection CN = boot.boot();
+      Statement ST = CN.createStatement();
+
+      msg = Query;
+      RS = ST.executeQuery(msg);
+      while (RS.next() == true) {
+        int rownum = RS.getInt("rownum");
+        java.util.Date p_date = RS.getDate("p_date");
+        String title = RS.getString("title");
+        String contents = RS.getString("contents");
+        //String p_id = RS.getString("p_id");
+
+        System.out.printf("   번호\t %s\n   ", rownum);
+        System.out.printf("날짜 %s\n   ", p_date);
+        System.out.printf("제목 %s\n   ", title);
+        System.out.printf("내용 %s\n   ", contents);
+        //System.out.printf("코드 %s\n   ", p_id);
+        System.out.println();
+      }
+      CN.close(); ST.close(); RS.close();
+    } catch(Exception e) {}
+  }//Method End
+
+  public void searchResultShowTable_F(String id, String Query) {
+    try {
+      Boot boot = new Boot();
+      Connection CN = boot.boot();
+      Statement ST = CN.createStatement();
+
+      msg = Query;
+      RS = ST.executeQuery(msg);
+      while (RS.next() == true) {
+        int rownum = RS.getInt("rownum");
+        java.util.Date f_date = RS.getDate("f_date");
+        String title = RS.getString("title");
+        String contents = RS.getString("contents");
+        //String p_id = RS.getString("p_id");
+
+        System.out.printf("   번호\t %s\n   ", rownum);
+        System.out.printf("날짜 %s\n   ", f_date);
+        System.out.printf("제목 %s\n   ", title);
+        System.out.printf("내용 %s\n   ", contents);
+        //System.out.printf("코드 %s\n   ", p_id);
+        System.out.println();
+      }
+      CN.close(); ST.close(); RS.close();
+    } catch(Exception e) {}
+  }//Method End
+
+  public void searchResultShowTable_S(String id, String Query) {
+    try {
+      Boot boot = new Boot();
+      Connection CN = boot.boot();
+      Statement ST = CN.createStatement();
+
+      msg = Query;
+      RS = ST.executeQuery(msg);
+      while (RS.next() == true) {
+        int rownum = RS.getInt("rownum");
+        java.util.Date s_date = RS.getDate("s_date");
+        String title = RS.getString("title");
+        String contents = RS.getString("contents");
+        String shares = RS.getString("shares");
+
+        System.out.printf("   번호\t %s\n   ", rownum);
+        System.out.printf("날짜 %s\n   ", s_date);
+        System.out.printf("제목 %s\n   ", title);
+        System.out.printf("내용 %s\n   ", contents);
+        System.out.printf("공유자 %s\n   ", shares);
+        System.out.println();
+      }
+      CN.close(); ST.close(); RS.close();
+    } catch(Exception e) {}
+  }//Method End
 } //class End

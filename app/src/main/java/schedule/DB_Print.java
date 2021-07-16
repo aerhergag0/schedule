@@ -16,8 +16,13 @@ public class DB_Print{
     try {
       conn = DriverManager.getConnection("jdbc:oracle:thin:@127.0.0.1:1521:XE","system","1234");
       Statement stmt = conn.createStatement();
+
       msg = query;
-      ResultSet rs= stmt.executeQuery(msg);
+      ResultSet rs = stmt.executeQuery(msg);
+      if(rs.next() == false) {
+        // 값이 없을시 출력 메시지?
+        return;
+      }
 
       DBTablePrinter.printResultSet(rs);
 
