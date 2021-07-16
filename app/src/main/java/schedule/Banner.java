@@ -1,4 +1,4 @@
-package schedule;
+package dbtest;
 
 public class Banner {
   final int bannerLength = 75;

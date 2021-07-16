@@ -1,4 +1,4 @@
-package schedule;
+package dbtest;
 
 import java.sql.Connection;
 import java.sql.ResultSet;
@@ -47,11 +47,14 @@ public class Login {
 
         // 관리자 확인
         if (id.equals("admin")) {
-          if (pw.equals("1234")) {
-            System.out.println("관리자모드로 접속합니다."); break loop;
+          msg = "select * from profile where id='"+id+"'";
+          RS = ST.executeQuery(msg);
+          while (RS.next() == true) {
+            if (RS.getString("pw").equals(pw)) {
+              System.out.println("관리자모드로 접속합니다."); break loop;
+            }
           }
         }
-
 
         // 아이디, 비밀번호 검사
         msg = "select * from profile where id='"+id+"'";

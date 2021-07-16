@@ -1,4 +1,4 @@
-package schedule;
+package dbtest;
 
 import java.sql.Connection;
 import java.sql.ResultSet;
@@ -31,7 +31,7 @@ public class ShowTable {
         System.out.println();
 
       }
-      CN.close(); ST.close(); RS.close();
+      CN.close();
     } catch(Exception e) {}
   } //Method End
 
@@ -57,7 +57,7 @@ public class ShowTable {
         System.out.println();
 
       }
-      CN.close(); ST.close(); RS.close();
+      CN.close();
     } catch(Exception e) {}
 
   } //Method End
@@ -90,14 +90,14 @@ public class ShowTable {
     } catch(Exception e) {}
   } // Method End
 
-  //공유테이블 번호 날짜 제목 내용 공유자 코드
+  //공유테이블 번호 날짜 제목 내용 코드
   public void showStable(String id) {
     try {
       Boot boot = new Boot();
       Connection CN = boot.boot();
       Statement ST = CN.createStatement();
 
-      msg = "select rownum, a.s_date, a.title, a.contents, a.shares, a.s_id from (select * from s_seet_"+id+" order by s_date) a";
+      msg = "select rownum, a.s_date, a.title, a.contents, a.s_id from (select * from s_seet_"+id+" order by s_date) a";
       RS = ST.executeQuery(msg);
       while (RS.next() == true) {
         int rownum = RS.getInt("rownum");
@@ -105,18 +105,16 @@ public class ShowTable {
         String title = RS.getString("title");
         String contents = RS.getString("contents");
         String s_id = RS.getString("s_id");
-        String shares = RS.getString("shares");
 
         System.out.printf("   번호\t %s\n   ", rownum);
         System.out.printf("날짜 %s\n   ", s_date);
         System.out.printf("제목 %s\n   ", title);
         System.out.printf("내용 %s\n   ", contents);
-        System.out.printf("공유자 %s\n   ", shares);
         System.out.printf("코드 %s\n   ", s_id);
         System.out.println();
 
       }
-      CN.close(); ST.close(); RS.close();
+      CN.close();
     } catch(Exception e) {}
   } // Method End
 
