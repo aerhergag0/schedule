@@ -1,8 +1,6 @@
-package schedule;
+package dbtest;
 
-import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.Statement;
+import java.sql.*;
 
 public class Notice {
 
@@ -81,5 +79,6 @@ public class Notice {
       }
     }catch(Exception e) {}
   }
+
 
 }

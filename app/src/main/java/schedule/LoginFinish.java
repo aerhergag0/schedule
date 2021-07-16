@@ -1,6 +1,6 @@
-package schedule;
+package dbtest;
 
-import java.util.Scanner;
+import java.util.*;
 
 public class LoginFinish extends DB_Print{
 
@@ -15,12 +15,17 @@ public class LoginFinish extends DB_Print{
   Notice notice = new Notice();
   Banner banner = new Banner();
   ShowTable showtable = new ShowTable();
-  Community community = new Community();
+  Date2 date2 = new Date2();
+  UserQuestion UserQueStion = new UserQuestion();
+
+
 
   public void loginfinish() {
     loop : while (true) {
       login.login();
       String id = login.id;
+      date2.date2(id);
+      date2.s_date2(id);
       if (id.equals("0")) { break; }
       if (id.equals("admin")) { manager.manager(); break;}
 
@@ -34,15 +39,15 @@ public class LoginFinish extends DB_Print{
         db_print("SELECT to_char(a.p_date,'YY-MM-DD') AS Schedule , to_char(COUNT(a.p_date),'999') AS Count FROM (SELECT * FROM seet_"+id+" order by p_date) a GROUP BY a.p_date");
 
         System.out.println("\n메뉴를 선택하여 주세요.");
-        System.out.println("\n1.개인일정  2.완료일정  3.공유일정  4.회원정보수정  5.회원탈퇴  6. 커뮤니티  0.로그아웃\n");
+        System.out.println("\n1.개인일정  2.완료일정  3.공유일정  4.회원정보수정  5.회원탈퇴 6.관리자문의 0.로그아웃\n");
         System.out.print("메뉴 입력 : ");
         String num = keyScan.nextLine();
         if (num.equals("1")) {view.view(id);}
-        else if(num.equals("2")) {view_f.view_f(id);}
+        else if(num.equals("2")) {view_f.view_f(id);}   
         else if(num.equals("3")) {view_s.view_s(id);}
         else if(num.equals("4")) {edit.edit(id);}
         else if(num.equals("5")) {leave.leave(id); break loop;}
-        else if(num.equals("6")) {community.community(id);}
+        else if(num.equals("6")) {UserQueStion.UserQuestion(id);}
         else if(num.equals("0")) {break loop;}
         else {System.out.println("\n잘못 입력하셨습니다. 다시 입력하여 주세요.");}
       }

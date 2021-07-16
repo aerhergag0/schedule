@@ -1,4 +1,4 @@
-package schedule;
+package dbtest;
 import java.sql.Connection;
 import java.sql.Statement;
 import java.util.Scanner;
@@ -101,13 +101,8 @@ public class SignUp {
       }
 
       System.out.println("\n질문에 대한 답변을 적어주세요.");
-      while (true) {
-        System.out.print("답변 작성 : ");
-        answer = keyScan.nextLine();
-        if (name.isEmpty()) {
-          System.out.println("\n이름이 비었습니다. 이름을 입력하여 주세요.");
-        } else {break;}
-      }
+      System.out.print("답변 작성 : ");
+      answer = keyScan.nextLine();
 
       // 이메일 작성
       System.out.println("\n이메일을 입력하여 주세요.");

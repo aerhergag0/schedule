@@ -1,19 +1,13 @@
-package schedule;
+package dbtest;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
 public class Boot {
-
-  String driver = "oracle.jdbc.driver.OracleDriver";
-  String url = "jdbc:oracle:thin:@127.0.0.1:1521:xe";
-  String id = "luke";
-  String pwd = "111111";
-
   public Connection boot() throws ClassNotFoundException, SQLException {
-    Class.forName(driver);
-    Connection CN = DriverManager.getConnection(url,id,pwd);
+    Class.forName("oracle.jdbc.driver.OracleDriver");
+    Connection CN = DriverManager.getConnection("jdbc:oracle:thin:@127.0.0.1:1521:xe","system","1234");
     return CN;
   }
 }

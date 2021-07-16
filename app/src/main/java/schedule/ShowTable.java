@@ -1,4 +1,4 @@
-package schedule;
+package dbtest;
 
 import java.sql.Connection;
 import java.sql.ResultSet;
@@ -31,27 +31,6 @@ public class ShowTable {
         System.out.println();
 
       }
-      CN.close(); ST.close(); RS.close();
-    } catch(Exception e) {}
-  } //Method End
-
-  //번호 날짜 제목 내용
-  public void showCommunity(String id) {
-    try {
-      Boot boot = new Boot();
-      Connection CN = boot.boot();
-      Statement ST = CN.createStatement();
-
-      System.out.println("번호" +"\t"+ "제목" +"\t\t\t"+ "작성자" +"\t"+ "날짜");
-      msg = "select c_id, title, writer, c_date from community order by c_id desc";
-      RS = ST.executeQuery(msg);
-      while (RS.next() == true) {
-        int c_id = RS.getInt("c_id");
-        String title = RS.getString("title");
-        String writer = RS.getString("writer");
-        java.util.Date c_date = RS.getDate("c_date");
-        System.out.println(c_id +"\t"+ title +"\t\t"+ writer +"\t"+ c_date);
-      }
       CN.close();
     } catch(Exception e) {}
   } //Method End
@@ -78,7 +57,7 @@ public class ShowTable {
         System.out.println();
 
       }
-      CN.close(); ST.close(); RS.close();
+      CN.close();
     } catch(Exception e) {}
 
   } //Method End
@@ -111,14 +90,14 @@ public class ShowTable {
     } catch(Exception e) {}
   } // Method End
 
-  //공유테이블 번호 날짜 제목 내용 공유자 코드
+  //공유테이블 번호 날짜 제목 내용 코드
   public void showStable(String id) {
     try {
       Boot boot = new Boot();
       Connection CN = boot.boot();
       Statement ST = CN.createStatement();
 
-      msg = "select rownum, a.s_date, a.title, a.contents, a.shares, a.s_id from (select * from s_seet_"+id+" order by s_date) a";
+      msg = "select rownum, a.s_date, a.title, a.contents, a.s_id from (select * from s_seet_"+id+" order by s_date) a";
       RS = ST.executeQuery(msg);
       while (RS.next() == true) {
         int rownum = RS.getInt("rownum");
@@ -126,46 +105,16 @@ public class ShowTable {
         String title = RS.getString("title");
         String contents = RS.getString("contents");
         String s_id = RS.getString("s_id");
-        String shares = RS.getString("shares");
 
         System.out.printf("   번호\t %s\n   ", rownum);
         System.out.printf("날짜 %s\n   ", s_date);
         System.out.printf("제목 %s\n   ", title);
         System.out.printf("내용 %s\n   ", contents);
-        System.out.printf("공유자 %s\n   ", shares);
         System.out.printf("코드 %s\n   ", s_id);
         System.out.println();
 
       }
-      CN.close(); ST.close(); RS.close();
+      CN.close();
     } catch(Exception e) {}
   } // Method End
-
-  public void searchResultShowTable(String id, String Query) {
-    try {
-      Boot boot = new Boot();
-      Connection CN = boot.boot();
-      Statement ST = CN.createStatement();
-
-      msg = Query;
-      RS = ST.executeQuery(msg);
-      while (RS.next() == true) {
-        int rownum = RS.getInt("rownum");
-        java.util.Date p_date = RS.getDate("p_date");
-        String title = RS.getString("title");
-        String contents = RS.getString("contents");
-        //String p_id = RS.getString("p_id");
-
-        System.out.printf("   번호\t %s\n   ", rownum);
-        System.out.printf("날짜 %s\n   ", p_date);
-        System.out.printf("제목 %s\n   ", title);
-        System.out.printf("내용 %s\n   ", contents);
-        //System.out.printf("코드 %s\n   ", p_id);
-        System.out.println();
-      }
-      CN.close(); ST.close(); RS.close();
-    } catch(Exception e) {}
-  }//Method End
-
-
 } //class End

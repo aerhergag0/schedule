@@ -1,4 +1,4 @@
-package schedule;
+package dbtest;
 
 import java.sql.Connection;
 import java.sql.ResultSet;
