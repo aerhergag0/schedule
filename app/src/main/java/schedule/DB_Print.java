@@ -17,8 +17,13 @@ public class DB_Print{
     try {
       conn = DriverManager.getConnection(boot.url,boot.id,boot.pwd);
       Statement stmt = conn.createStatement();
+
       msg = query;
-      ResultSet rs= stmt.executeQuery(msg);
+      ResultSet rs = stmt.executeQuery(msg);
+      if(rs.next() == false) {
+        // 값이 없을시 출력 메시지?
+        return;
+      }
 
       DBTablePrinter.printResultSet(rs);
 
