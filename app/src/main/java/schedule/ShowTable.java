@@ -31,7 +31,7 @@ public class ShowTable {
         System.out.println();
 
       }
-      CN.close();
+      CN.close(); ST.close(); RS.close();
     } catch(Exception e) {}
   } //Method End
 
@@ -42,20 +42,15 @@ public class ShowTable {
       Connection CN = boot.boot();
       Statement ST = CN.createStatement();
 
-      msg = "select rownum, title, writer, c_date from community order by rownum desc";
+      System.out.println("번호" +"\t"+ "제목" +"\t\t\t"+ "작성자" +"\t"+ "날짜");
+      msg = "select c_id, title, writer, c_date from community order by c_id desc";
       RS = ST.executeQuery(msg);
       while (RS.next() == true) {
-        int rownum = RS.getInt("rownum");
+        int c_id = RS.getInt("c_id");
         String title = RS.getString("title");
         String writer = RS.getString("writer");
         java.util.Date c_date = RS.getDate("c_date");
-
-        System.out.printf("   번호\t %s\n   ", rownum);
-        System.out.printf("제목 %s\n   ", title);
-        System.out.printf("작성자 %s\n   ", writer);
-        System.out.printf("날짜 %s\n   ", c_date);
-        System.out.println();
-
+        System.out.println(c_id +"\t"+ title +"\t\t"+ writer +"\t"+ c_date);
       }
       CN.close();
     } catch(Exception e) {}
@@ -83,7 +78,7 @@ public class ShowTable {
         System.out.println();
 
       }
-      CN.close();
+      CN.close(); ST.close(); RS.close();
     } catch(Exception e) {}
 
   } //Method End
@@ -142,7 +137,7 @@ public class ShowTable {
         System.out.println();
 
       }
-      CN.close();
+      CN.close(); ST.close(); RS.close();
     } catch(Exception e) {}
   } // Method End
 
@@ -168,7 +163,7 @@ public class ShowTable {
         //System.out.printf("코드 %s\n   ", p_id);
         System.out.println();
       }
-      CN.close();
+      CN.close(); ST.close(); RS.close();
     } catch(Exception e) {}
   }//Method End
 
