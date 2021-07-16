@@ -9,20 +9,17 @@ import java.sql.Statement;
 //DBTablePrinter.java 필요
 public class DB_Print{    
 
+  Boot boot = new Boot();
   //db_print(쿼리문)
   public void db_print(String query) {
     Connection conn = null;
     String msg = null;
     try {
-      conn = DriverManager.getConnection("jdbc:oracle:thin:@127.0.0.1:1521:XE","system","1234");
-      Statement stmt = conn.createStatement();
 
+      conn = DriverManager.getConnection(boot.url,boot.id,boot.pwd);
+      Statement stmt = conn.createStatement();
       msg = query;
-      ResultSet rs = stmt.executeQuery(msg);
-      if(rs.next() == false) {
-        // 값이 없을시 출력 메시지?
-        return;
-      }
+      ResultSet rs= stmt.executeQuery(msg);
 
       DBTablePrinter.printResultSet(rs);
 
