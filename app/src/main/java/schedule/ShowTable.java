@@ -31,7 +31,7 @@ public class ShowTable {
         System.out.println();
 
       }
-      CN.close();
+      CN.close(); ST.close(); RS.close();
     } catch(Exception e) {}
   } //Method End
 
@@ -57,7 +57,7 @@ public class ShowTable {
         System.out.println();
 
       }
-      CN.close();
+      CN.close(); ST.close(); RS.close();
     } catch(Exception e) {}
 
   } //Method End
@@ -116,7 +116,7 @@ public class ShowTable {
         System.out.println();
 
       }
-      CN.close();
+      CN.close(); ST.close(); RS.close();
     } catch(Exception e) {}
   } // Method End
 
@@ -142,7 +142,7 @@ public class ShowTable {
         //System.out.printf("코드 %s\n   ", p_id);
         System.out.println();
       }
-      CN.close();
+      CN.close(); ST.close(); RS.close();
     } catch(Exception e) {}
   }//Method End
 } //class End

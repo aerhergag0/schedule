@@ -1,6 +1,7 @@
 package schedule;
 
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
 import java.util.Scanner;
@@ -50,7 +51,7 @@ public class SearchSchedule {
         System.out.println("\n게시글이 존재하지 않습니다."); }
       else {
         while (true) {
-          System.out.print("검색할 제목을 입력하세요(0: 뒤로가기) : ");
+          System.out.print("검색할 제목을 입력하세요 (0: 뒤로가기) : ");
           String keyword = sc.nextLine();
           if (keyword.equals("0")) {return;}
           msg = "select * from seet_"+id+" where title='"+keyword+"'";
@@ -119,6 +120,7 @@ public class SearchSchedule {
       Connection CN = boot.boot();
       Statement ST = CN.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE,ResultSet.CONCUR_UPDATABLE);
       ResultSet RS;
+      PreparedStatement PS;
 
       // 게시물 존재 여부확인
       msg = "select * from seet_"+id;
@@ -127,7 +129,7 @@ public class SearchSchedule {
         System.out.println("\n게시글이 존재하지 않습니다."); }
       else {
         while (true) {
-          System.out.print("검색할 내용을 입력하세요(0: 뒤로가기) : ");
+          System.out.print("검색할 내용을 입력하세요 (0: 뒤로가기) : ");
           String keyword = sc.nextLine();
           if (keyword.equals("0")) {return;}
           msg = "select * from seet_"+id+" where title='"+keyword+"'";
@@ -140,7 +142,9 @@ public class SearchSchedule {
           }
           else {
             System.out.printf(" 총 %d 건의 검색 결과가 있습니다.\n\n", searchResultCount);
-            showtable.searchResultShowTable(id, "select rownum, a.p_date, a.title, a.contents, a.p_id from (select * from seet_"+id+" order by p_date) a where contents Like '%"+keyword+"%'");
+
+            String keyword2 = "%%"+keyword+"%%";
+            showtable.searchResultShowTable(id, "select rownum, a.p_date, a.title, a.contents, a.p_id from (select * from seet_"+id+" order by p_date) a where contents Like '"+keyword2+"'");
           }
         } // search While end
       } // RS check End
