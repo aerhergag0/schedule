@@ -1,35 +1,4 @@
-/*
-Database Table Printer
-Copyright (C) 2014  Hami Galip Torun
-
-Email: hamitorun@e-fabrika.net
-Project Home: https://github.com/htorun/dbtableprinter
-
-This program is free software: you can redistribute it and/or modify
-it under the terms of the GNU General Public License as published by
-the Free Software Foundation, either version 3 of the License, or
-(at your option) any later version.
-
-This program is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-GNU General Public License for more details.
-
-You should have received a copy of the GNU General Public License
-along with this program.  If not, see <http://www.gnu.org/licenses/>.
- */
-
-/*
-This is my first Java program that does something more or less
-useful. It is part of my effort to learn Java, how to use
-an IDE (IntelliJ IDEA 13.1.15 in this case), how to apply an
-open source license and how to use Git and GitHub (https://github.com)
-for version control and publishing an open source software.
-
-Hami
- */
-
-package dbtest;
+package schedule;
 
 import java.sql.Connection;
 import java.sql.ResultSet;
@@ -41,314 +10,104 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.StringJoiner;
 
-/**
- * Just a utility to print rows from a given DB table or a
- * <code>ResultSet</code> to standard out, formatted to look
- * like a table with rows and columns with borders.
- *
- * <p>Stack Overflow website
- * (<a target="_blank" href="http://stackoverflow.com">stackoverflow.com</a>)
- * was the primary source of inspiration and help to put this
- * code together. Especially the questions and answers of
- * the following people were very useful:</p>
- *
- * <p>Question:
- * <a target="_blank" href="http://tinyurl.com/q7lbqeh">How to display or
- * print the contents of a database table as is</a><br>
- *     People: sky scraper</p>
- *
- * <p>Question:
- * <a target="_blank" href="http://tinyurl.com/pbwgess">System.out.println()
- * from database into a table</a><br>
- *     People: Simon Cottrill, Tony Toews, Costis Aivali, Riggy, corsiKa</p>
- *
- * <p>Question:
- * <a target="_blank" href="http://tinyurl.com/7x9qtyg">Simple way to repeat
- * a string in java</a><br>
- *     People: Everybody who contributed but especially user102008</p>
- *
- */
 public class DBTablePrinter {
 
-  /**
-   * Default maximum number of rows to query and print.
-   */
   private static final int DEFAULT_MAX_ROWS = 10;
 
-  /**
-   * Default maximum width for text columns
-   * (like a <code>VARCHAR</code>) column.
-   */
   private static final int DEFAULT_MAX_TEXT_COL_WIDTH = 150;
 
-  /**
-   * Column type category for <code>CHAR</code>, <code>VARCHAR</code>
-   * and similar text columns.
-   */
   public static final int CATEGORY_STRING = 1;
 
-  /**
-   * Column type category for <code>TINYINT</code>, <code>SMALLINT</code>,
-   * <code>INT</code> and <code>BIGINT</code> columns.
-   */
-  public static final int CATEGORY_INTEGER = 2;
+  static final int CATEGORY_INTEGER = 2;
 
-  /**
-   * Column type category for <code>REAL</code>, <code>DOUBLE</code>,
-   * and <code>DECIMAL</code> columns.
-   */
   public static final int CATEGORY_DOUBLE = 3;
 
-  /**
-   * Column type category for date and time related columns like
-   * <code>DATE</code>, <code>TIME</code>, <code>TIMESTAMP</code> etc.
-   */
+
   public static final int CATEGORY_DATETIME = 4;
 
-  /**
-   * Column type category for <code>BOOLEAN</code> columns.
-   */
   public static final int CATEGORY_BOOLEAN = 5;
 
-  /**
-   * Column type category for types for which the type name
-   * will be printed instead of the content, like <code>BLOB</code>,
-   * <code>BINARY</code>, <code>ARRAY</code> etc.
-   */
   public static final int CATEGORY_OTHER = 0;
 
-  /**
-   * Represents a database table column.
-   */
   private static class Column {
 
-    /**
-     * Column label.
-     */
     private String label;
 
-    /**
-     * Generic SQL type of the column as defined in
-     * <a target="_blank"
-     * href="http://docs.oracle.com/javase/8/docs/api/java/sql/Types.html">
-     * java.sql.Types
-     * </a>.
-     */
     private int type;
 
-    /**
-     * Generic SQL type name of the column as defined in
-     * <a target="_blank"
-     * href="http://docs.oracle.com/javase/8/docs/api/java/sql/Types.html">
-     * java.sql.Types
-     * </a>.
-     */
     private String typeName;
 
-    /**
-     * Width of the column that will be adjusted according to column label
-     * and values to be printed.
-     */
     private int width = 0;
 
-    /**
-     * Column values from each row of a <code>ResultSet</code>.
-     */
     private List<String> values = new ArrayList<>();
 
-    /**
-     * Flag for text justification using <code>String.format</code>.
-     * Empty string (<code>""</code>) to justify right,
-     * dash (<code>-</code>) to justify left.
-     *
-     * @see #justifyLeft()
-     */
     private String justifyFlag = "";
 
-    /**
-     * Column type category. The columns will be categorised according
-     * to their column types and specific needs to print them correctly.
-     */
     private int typeCategory = 0;
 
-    /**
-     * Constructs a new <code>Column</code> with a column label,
-     * generic SQL type and type name (as defined in
-     * <a target="_blank"
-     * href="http://docs.oracle.com/javase/8/docs/api/java/sql/Types.html">
-     * java.sql.Types
-     * </a>)
-     *
-     * @param label Column label or name
-     * @param type Generic SQL type
-     * @param typeName Generic SQL type name
-     */
     public Column (String label, int type, String typeName) {
       this.label = label;
       this.type = type;
       this.typeName = typeName;
     }
 
-    /**
-     * Returns the column label
-     *
-     * @return Column label
-     */
     public String getLabel() {
       return label;
     }
 
-    /**
-     * Returns the generic SQL type of the column
-     *
-     * @return Generic SQL type
-     */
     public int getType() {
       return type;
     }
 
-    /**
-     * Returns the generic SQL type name of the column
-     *
-     * @return Generic SQL type name
-     */
     public String getTypeName() {
       return typeName;
     }
 
-    /**
-     * Returns the width of the column
-     *
-     * @return Column width
-     */
     public int getWidth() {
       return width;
     }
 
-    /**
-     * Sets the width of the column to <code>width</code>
-     *
-     * @param width Width of the column
-     */
     public void setWidth(int width) {
       this.width = width;
     }
 
-    /**
-     * Adds a <code>String</code> representation (<code>value</code>)
-     * of a value to this column object's {@link #values} list.
-     * These values will come from each row of a
-     * <a target="_blank"
-     * href="http://docs.oracle.com/javase/8/docs/api/java/sql/ResultSet.html">
-     * ResultSet
-     * </a> of a database query.
-     *
-     * @param value The column value to add to {@link #values}
-     */
     public void addValue(String value) {
       values.add(value);
     }
 
-    /**
-     * Returns the column value at row index <code>i</code>.
-     * Note that the index starts at 0 so that <code>getValue(0)</code>
-     * will get the value for this column from the first row
-     * of a <a target="_blank"
-     * href="http://docs.oracle.com/javase/8/docs/api/java/sql/ResultSet.html">
-     * ResultSet</a>.
-     *
-     * @param i The index of the column value to get
-     * @return The String representation of the value
-     */
     public String getValue(int i) {
       return values.get(i);
     }
 
-    /**
-     * Returns the value of the {@link #justifyFlag}. The column
-     * values will be printed using <code>String.format</code> and
-     * this flag will be used to right or left justify the text.
-     *
-     * @return The {@link #justifyFlag} of this column
-     * @see #justifyLeft()
-     */
     public String getJustifyFlag() {
       return justifyFlag;
     }
 
-    /**
-     * Sets {@link #justifyFlag} to <code>"-"</code> so that
-     * the column value will be left justified when printed with
-     * <code>String.format</code>. Typically numbers will be right
-     * justified and text will be left justified.
-     */
+
     public void justifyLeft() {
       this.justifyFlag = "-";
     }
 
-    /**
-     * Returns the generic SQL type category of the column
-     *
-     * @return The {@link #typeCategory} of the column
-     */
     public int getTypeCategory() {
       return typeCategory;
     }
 
-    /**
-     * Sets the {@link #typeCategory} of the column
-     *
-     * @param typeCategory The type category
-     */
+
     public void setTypeCategory(int typeCategory) {
       this.typeCategory = typeCategory;
     }
   }
 
-  /**
-   * Overloaded method that prints rows from table <code>tableName</code>
-   * to standard out using the given database connection
-   * <code>conn</code>. Total number of rows will be limited to
-   * {@link #DEFAULT_MAX_ROWS} and
-   * {@link #DEFAULT_MAX_TEXT_COL_WIDTH} will be used to limit
-   * the width of text columns (like a <code>VARCHAR</code> column).
-   *
-   * @param conn Database connection object (java.sql.Connection)
-   * @param tableName Name of the database table
-   */
+
   public static void printTable(Connection conn, String tableName){
     printTable(conn, tableName, DEFAULT_MAX_ROWS, DEFAULT_MAX_TEXT_COL_WIDTH);
   }
 
-  /**
-   * Overloaded method that prints rows from table <code>tableName</code>
-   * to standard out using the given database connection
-   * <code>conn</code>. Total number of rows will be limited to
-   * <code>maxRows</code> and
-   * {@link #DEFAULT_MAX_TEXT_COL_WIDTH} will be used to limit
-   * the width of text columns (like a <code>VARCHAR</code> column).
-   *
-   * @param conn Database connection object (java.sql.Connection)
-   * @param tableName Name of the database table
-   * @param maxRows Number of max. rows to query and print
-   */
+
   public static void printTable(Connection conn, String tableName, int maxRows) {
     printTable(conn, tableName, maxRows, DEFAULT_MAX_TEXT_COL_WIDTH);
   }
 
-  /**
-   * Overloaded method that prints rows from table <code>tableName</code>
-   * to standard out using the given database connection
-   * <code>conn</code>. Total number of rows will be limited to
-   * <code>maxRows</code> and
-   * <code>maxStringColWidth</code> will be used to limit
-   * the width of text columns (like a <code>VARCHAR</code> column).
-   *
-   * @param conn Database connection object (java.sql.Connection)
-   * @param tableName Name of the database table
-   * @param maxRows Number of max. rows to query and print
-   * @param maxStringColWidth Max. width of text columns
-   */
   public static void printTable(Connection conn, String tableName, int maxRows, int maxStringColWidth) {
     if (conn == null) {
       System.err.println("DBTablePrinter Error: No connection to database (Connection is null)!");
@@ -398,27 +157,10 @@ public class DBTablePrinter {
     }
   }
 
-  /**
-   * Overloaded method to print rows of a <a target="_blank"
-   * href="http://docs.oracle.com/javase/8/docs/api/java/sql/ResultSet.html">
-   * ResultSet</a> to standard out using {@link #DEFAULT_MAX_TEXT_COL_WIDTH}
-   * to limit the width of text columns.
-   *
-   * @param rs The <code>ResultSet</code> to print
-   */
   public static void printResultSet(ResultSet rs) {
     printResultSet(rs, DEFAULT_MAX_TEXT_COL_WIDTH);
   }
 
-  /**
-   * Overloaded method to print rows of a <a target="_blank"
-   * href="http://docs.oracle.com/javase/8/docs/api/java/sql/ResultSet.html">
-   * ResultSet</a> to standard out using <code>maxStringColWidth</code>
-   * to limit the width of text columns.
-   *
-   * @param rs The <code>ResultSet</code> to print
-   * @param maxStringColWidth Max. width of text columns
-   */
   public static void printResultSet(ResultSet rs, int maxStringColWidth) {
     try {
       if (rs == null) {
@@ -515,15 +257,6 @@ public class DBTablePrinter {
 
       } // END of while (rs.next)
 
-      /*
-            At this point we have gone through meta data, get the
-            columns and created all Column objects, iterated over the
-            ResultSet rows, populated the column values and adjusted
-            the column widths.
-
-            We cannot start printing just yet because we have to prepare
-            a row separator String.
-       */
 
       // For the fun of it, I will use StringBuilder
       StringBuilder strToPrint = new StringBuilder();
@@ -630,22 +363,6 @@ public class DBTablePrinter {
     }
   }
 
-  /**
-   * Takes a generic SQL type and returns the category this type
-   * belongs to. Types are categorized according to print formatting
-   * needs:
-   * <p>
-   * Integers should not be truncated so column widths should
-   * be adjusted without a column width limit. Text columns should be
-   * left justified and can be truncated to a max. column width etc...</p>
-   *
-   * See also: <a target="_blank"
-   * href="http://docs.oracle.com/javase/8/docs/api/java/sql/Types.html">
-   * java.sql.Types</a>
-   *
-   * @param type Generic SQL type
-   * @return The category this type belongs to
-   */
   private static int whichCategory(int type) {
     switch (type) {
       case Types.BIGINT:
