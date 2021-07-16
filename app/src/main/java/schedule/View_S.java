@@ -11,6 +11,7 @@ public class View_S {
   Scanner sc = new Scanner(System.in);
   Banner banner = new Banner();
   ShowTable showtable = new ShowTable();
+  SearchSchedule_S search_s = new SearchSchedule_S();
 
   ResultSet RS;
   String msg;
@@ -42,11 +43,12 @@ public class View_S {
 
         while(true) {
           System.out.println("\n메뉴를 선택하여 주세요.");
-          System.out.println("\n1. 공유일정 삭제\n0. 뒤로가기\n");
+          System.out.println("\n1. 공유일정 삭제\n2. 공유일정 검색\n0. 뒤로가기\n");
           System.out.print("메뉴 입력 : ");
           String i = sc.nextLine();
           if (i.equals("1")) {s_delete(id);break;}
           else if (i.equals("0")) {return;}
+          else if (i.equals("2")) {search_s.search_s_menu(id); break;}
           else {System.out.println("\n올바르지 않은 번호입니다. 다시 입력하여 주세요."); }
         }
       }
@@ -94,11 +96,6 @@ public class View_S {
 
     }catch (Exception e) {System.out.println(e);} // try-catch end
   }
-
-
-
-
-
 
 
   public void s_view(String id) {
