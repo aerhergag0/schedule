@@ -63,7 +63,11 @@ public class SearchSchedule {
             System.out.printf("검색하신 %s 에 대한 결과가 없습니다.\n\n", keyword);
           }
           else {
+<<<<<<< HEAD
             System.out.printf(" 검색하신 %s 에 대한 총 %d 건의 검색 결과가 있습니다.\n\n",keyword, searchResultCount);
+=======
+            System.out.printf(" 총 %d 건의 검색 결과가 있습니다.\n\n", searchResultCount);
+>>>>>>> 018866d150a24f2aca4d0736857294c96caa15f5
             showtable.searchResultShowTable(id, "select rownum, a.p_date, a.title, a.contents, a.p_id from (select * from seet_"+id+" order by p_date) a where title = '"+keyword+"'");
           }
         }
@@ -104,7 +108,11 @@ public class SearchSchedule {
               System.out.printf("검색하신 %s 에 대한 결과가 없습니다.\n\n", keyword);
             }
             else {
+<<<<<<< HEAD
               System.out.printf("%s 의 날짜에 대한 총 %d 건의 검색 결과가 있습니다.\n\n", keyword, searchResultCount);
+=======
+              System.out.printf(" 총 %d 건의 검색 결과가 있습니다.\n\n", searchResultCount);
+>>>>>>> 018866d150a24f2aca4d0736857294c96caa15f5
               showtable.searchResultShowTable(id, "select rownum, a.p_date, a.title, a.contents, a.p_id from (select * from seet_"+id+" order by p_date) a where p_date = '"+keyword+"'");
             }
           }
@@ -132,7 +140,11 @@ public class SearchSchedule {
           System.out.print("검색할 내용을 입력하세요 (0: 뒤로가기) : ");
           String keyword = sc.nextLine();
           if (keyword.equals("0")) {return;}
+<<<<<<< HEAD
           msg = "select * from seet_"+id+" where contents Like '%"+keyword+"%'";
+=======
+          msg = "select * from seet_"+id+" where title='"+keyword+"'";
+>>>>>>> 018866d150a24f2aca4d0736857294c96caa15f5
           RS = ST.executeQuery(msg);
           RS.last();
           int searchResultCount = RS.getRow();
@@ -141,8 +153,15 @@ public class SearchSchedule {
             System.out.printf("검색하신 %s 에 대한 결과가 없습니다.\n\n", keyword);
           }
           else {
+<<<<<<< HEAD
             System.out.printf(" %s 의 내용이 포함된 총 %d 건의 검색 결과가 있습니다.\n\n",keyword, searchResultCount);
             showtable.searchResultShowTable(id, "select rownum, a.p_date, a.title, a.contents, a.p_id from (select * from seet_"+id+" order by p_date) a where contents Like '%"+keyword+"%'");
+=======
+            System.out.printf(" 총 %d 건의 검색 결과가 있습니다.\n\n", searchResultCount);
+
+            String keyword2 = "%%"+keyword+"%%";
+            showtable.searchResultShowTable(id, "select rownum, a.p_date, a.title, a.contents, a.p_id from (select * from seet_"+id+" order by p_date) a where contents Like '"+keyword2+"'");
+>>>>>>> 018866d150a24f2aca4d0736857294c96caa15f5
           }
         } // search While end
       } // RS check End
