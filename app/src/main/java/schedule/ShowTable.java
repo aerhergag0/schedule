@@ -35,6 +35,32 @@ public class ShowTable {
     } catch(Exception e) {}
   } //Method End
 
+  //번호 날짜 제목 내용
+  public void showCommunity(String id) {
+    try {
+      Boot boot = new Boot();
+      Connection CN = boot.boot();
+      Statement ST = CN.createStatement();
+
+      msg = "select rownum, title, writer, c_date from community order by rownum desc";
+      RS = ST.executeQuery(msg);
+      while (RS.next() == true) {
+        int rownum = RS.getInt("rownum");
+        String title = RS.getString("title");
+        String writer = RS.getString("writer");
+        java.util.Date c_date = RS.getDate("c_date");
+
+        System.out.printf("   번호\t %s\n   ", rownum);
+        System.out.printf("제목 %s\n   ", title);
+        System.out.printf("작성자 %s\n   ", writer);
+        System.out.printf("날짜 %s\n   ", c_date);
+        System.out.println();
+
+      }
+      CN.close();
+    } catch(Exception e) {}
+  } //Method End
+
   //번호 날짜 제목 코드
   public void showtableCode(String id) {
     try {
@@ -145,4 +171,6 @@ public class ShowTable {
       CN.close();
     } catch(Exception e) {}
   }//Method End
+
+
 } //class End

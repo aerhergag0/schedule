@@ -14,7 +14,8 @@ public class DB_Print {
     Connection conn = null;
     String msg = null;
     try {
-      conn = DriverManager.getConnection("jdbc:oracle:thin:@127.0.0.1:1521:XE","system","1234");
+
+      conn = DriverManager.getConnection("jdbc:oracle:thin:@127.0.0.1:1521:XE","luke","111111");
       Statement stmt = conn.createStatement();
       msg = query;
       ResultSet rs= stmt.executeQuery(msg);
