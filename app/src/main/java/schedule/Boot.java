@@ -9,8 +9,8 @@ public class Boot {
   String driver = "oracle.jdbc.driver.OracleDriver";
   String url = "jdbc:oracle:thin:@127.0.0.1:1521:xe";
 
-  String id = "luke";
-  String pwd = "111111";
+  String id = "system";
+  String pwd = "1234";
 
   public Connection boot() throws ClassNotFoundException, SQLException {
     Class.forName(driver);

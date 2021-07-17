@@ -32,8 +32,7 @@ public class LoginFinish extends DB_Print{
         banner.printbanner1("메뉴");
         System.out.println("[날짜별 일정 개수]");
         System.out.println();
-        db_print("SELECT to_char(a.p_date,'YY-MM-DD') AS Schedule , to_char(COUNT(a.p_date),'999') AS Count FROM (SELECT * FROM seet_"+id+" order by p_date) a GROUP BY a.p_date");
-
+        db_print("SELECT to_char(a.p_date,'YY-MM-DD') AS Schedule , to_char(COUNT(a.p_date),'999') AS Count FROM (SELECT * FROM seet_"+id+" order by p_date) a GROUP BY a.p_date order by schedule");
         System.out.println("\n메뉴를 선택하여 주세요.");
         System.out.println("\n1.개인일정  2.완료일정  3.공유일정  4.회원정보수정  5.회원탈퇴  6. 커뮤니티  7. 관리자 문의  0.로그아웃\n");
         System.out.print("메뉴 입력 : ");

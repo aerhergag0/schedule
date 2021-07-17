@@ -21,7 +21,7 @@ public class SearchSchedule_S {
     searchLoop : while (true) {
       try {
         System.out.println("선택할 항목을 입력하여 주세요.\n");
-        System.out.println("1.제목으로 검색  2.날짜로 검색  3.내용으로 검색  0.뒤로가기");
+        System.out.println("1.제목으로 검색  2.날짜로 검색  3.내용으로 검색 4. 공유자로 검색(추가예정) 0.뒤로가기");
         System.out.print("번호 입력 >> ");
         int menuNum = Integer.parseInt(sc.nextLine());
 
